@@ -41,6 +41,9 @@ export const AppProvider = () => {
                                     height: '100%',
                                     boxSizing: 'border-box',
                                 },
+                                body: {
+                                    overflow: 'hidden',
+                                },
                             }}
                         />
                         <App />
