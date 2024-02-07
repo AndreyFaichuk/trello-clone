@@ -1,3 +1,13 @@
+import { Stack } from '@mui/material';
+import { Table } from './components/Table';
+
 export const TablesPage = () => {
-    return <h1>TablesPage</h1>;
+    return (
+        <Stack justifyContent="space-around" flexDirection="row">
+            <Table />
+            <Table />
+            <Table />
+            <Table />
+        </Stack>
+    );
 };

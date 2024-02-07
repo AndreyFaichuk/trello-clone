@@ -34,8 +34,8 @@ const BaseHeaderLogo: React.FC<BaseHeaderLogoProps> = ({ logo, href = '' }) => {
         <StyledBaseHeaderLogo>
             <StyledBaseHeaderLogoImg
                 src={logo}
-                width={162}
-                height={40}
+                width={62}
+                height={62}
                 alt="logo"
             />
         </StyledBaseHeaderLogo>

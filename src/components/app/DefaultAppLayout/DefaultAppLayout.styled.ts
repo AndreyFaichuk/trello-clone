@@ -4,6 +4,7 @@ export const StyledDefaultAppLayoutContent = styled('main')(() => ({
     display: 'flex',
     flex: 1,
     overflow: 'hidden',
+    height: '95vh',
 }));
 
 export const StyledDefaultAppLayoutPageContent = styled('section')(
@@ -12,6 +13,7 @@ export const StyledDefaultAppLayoutPageContent = styled('section')(
         flex: 1,
         flexDirection: 'column',
         overflow: 'auto',
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
+        backgroundColor: theme.palette.primary.main,
     }),
 );
