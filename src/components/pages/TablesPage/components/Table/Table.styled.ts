@@ -6,10 +6,10 @@ export const StyledTableWrapper = styled(Paper)(({ theme }) => ({
     maxHeight: '100%',
     flexDirection: 'column',
     backgroundColor: theme.palette.primary.dark,
-    padding: theme.spacing(1),
+    padding: theme.spacing(1, 1, 2, 1),
 }));
 
-export const StyledTableTitle = styled('h2')(() => ({
+export const StyledTableTitle = styled('h2')(({ theme }) => ({
     fontSize: '14px',
     fontWeight: '600',
 }));

@@ -6,7 +6,7 @@ export const StyledTicketWrapper = styled(Paper)(({ theme }) => ({
     flexDirection: 'column',
     backgroundColor: theme.palette.primary.light,
     padding: theme.spacing(1),
-    cursor: 'pointer',
+    cursor: 'move',
     '&:hover': {
         backgroundColor: theme.palette.primary.contrastText,
     },
