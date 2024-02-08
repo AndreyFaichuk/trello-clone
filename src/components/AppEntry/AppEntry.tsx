@@ -47,9 +47,7 @@ export const AppProvider = () => {
                                 },
                             }}
                         />
-                        <TablePageProvider>
-                            <App />
-                        </TablePageProvider>
+                        <App />
                     </Router>
                 </ThemeProvider>
             </StyledEngineProvider>

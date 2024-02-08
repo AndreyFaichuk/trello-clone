@@ -1,23 +1,11 @@
-import React, { useContext, useState } from 'react';
-
-export type Task = {
-    id: number;
-    name: string;
-    category: string;
-};
-
-export type TableConfig = {
-    title: string;
-    category: string;
-};
-
-export type TablePageProps = {
-    tables: TableConfig[];
-    tickets: Task[];
-    onDragOver: (ev: React.DragEvent) => void;
-    onDragStart: (ev: React.DragEvent, id: number) => void;
-    onDrop: (ev: React.DragEvent, category: string) => void;
-};
+import React, { useCallback, useContext, useMemo, useState } from 'react';
+import {
+    TableCategory,
+    TableConfig,
+    TablePageProps,
+    TablePageProviderProps,
+    Ticket,
+} from './types';
 
 export const TablePageContext = React.createContext<TablePageProps>({
     tables: [],
@@ -27,96 +15,104 @@ export const TablePageContext = React.createContext<TablePageProps>({
     onDrop: () => {},
 });
 
-export interface TablePageProviderProps {
-    children: React.ReactNode;
-}
-
 export const TablePageProvider: React.FC<TablePageProviderProps> = ({
     children,
 }) => {
-    const [tickets, setTickets] = useState<Task[]>([
+    const [tickets, setTickets] = useState<Ticket[]>([
         {
             id: 1,
-            name: 'Add More Tasks',
+            name: 'Fix UI bug',
             category: 'backlog',
+            dateCreated: '2024-01-31 14:08:42.307222+00',
         },
         {
             id: 2,
-            name: 'Add',
+            name: 'Add new logic',
             category: 'backlog',
+            dateCreated: '2024-02-02 14:08:42.307222+00',
         },
         {
             id: 3,
-            name: 'Add',
+            name: 'Prepare component for new feature',
             category: 'backlog',
+            dateCreated: '2024-01-15 14:08:42.307222+00',
         },
         {
             id: 4,
-            name: 'Add Mosre Ts',
+            name: 'Replace old styles',
             category: 'in_progress',
+            dateCreated: '2024-01-11 14:08:42.307222+00',
         },
         {
             id: 5,
-            name: 'Add More ddTs',
+            name: 'Add new layout',
             category: 'in_progress',
+            dateCreated: '2024-01-30 14:08:42.307222+00',
+        },
+        {
+            id: 6,
+            name: 'Add new button',
+            category: 'done',
+            dateCreated: '2024-01-27 14:08:42.307222+00',
+        },
+        {
+            id: 7,
+            name: 'Fix new layout',
+            category: 'selected_for_qa',
+            dateCreated: '2024-02-08 14:08:42.307222+00',
+        },
+        {
+            id: 8,
+            name: 'Remove old ui',
+            category: 'in_progress',
+            dateCreated: '2024-02-04 14:08:42.307222+00',
         },
     ]);
 
-    const onDragOver = (ev: React.DragEvent) => {
+    const onDragOver = useCallback((ev: React.DragEvent) => {
         ev.preventDefault();
-    };
+    }, []);
 
-    const onDragStart = (ev: React.DragEvent, id: number) => {
+    const onDragStart = useCallback((ev: React.DragEvent, id: number) => {
         ev.dataTransfer.setData('id', id.toString());
-    };
+    }, []);
 
-    const onDrop = (ev: React.DragEvent, destinationCategory: string) => {
-        ev.preventDefault();
+    const onDrop = useCallback(
+        (ev: React.DragEvent, destinationCategory: TableCategory) => {
+            ev.preventDefault();
 
-        const id = ev.dataTransfer.getData('id');
-        const draggedTask = tickets.find((task) => task.id === +id);
+            const id = ev.dataTransfer.getData('id');
 
-        if (draggedTask) {
             setTickets((prevTasks) => {
-                const updatedTasks = [...prevTasks];
-
-                const sourceIndex = prevTasks.findIndex(
-                    (task) => task.id === +id,
-                );
-
-                // If the category remains the same, handle position swap
-                if (draggedTask.category === destinationCategory) {
-                    updatedTasks.splice(sourceIndex, 1);
-                    const destinationIndex = updatedTasks.findIndex(
-                        (task) => task.category === destinationCategory,
-                    );
-                    updatedTasks.splice(destinationIndex, 0, draggedTask);
-                } else {
-                    // If the category changes, move the task to the new category
-                    const updatedTask = {
-                        ...draggedTask,
-                        category: destinationCategory,
-                    };
-                    updatedTasks.splice(sourceIndex, 1);
-                    updatedTasks.push(updatedTask);
-                }
+                const updatedTasks = prevTasks.map((task) => {
+                    if (task.id === +id) {
+                        return { ...task, category: destinationCategory };
+                    }
+                    return task;
+                });
 
                 return updatedTasks;
             });
-        }
-    };
-
-    const tables: TableConfig[] = [
-        { title: 'Backlog', category: 'backlog' },
-        {
-            title: 'Selected for development',
-            category: 'selected_for_development',
         },
-        { title: 'In Progress', category: 'in_progress' },
-        { title: 'Done', category: 'done' },
-    ];
+        [],
+    );
 
-    const value = { tickets, tables, onDragOver, onDragStart, onDrop };
+    const tables: TableConfig[] = useMemo(() => {
+        return [
+            { title: 'Backlog', category: 'backlog' },
+            {
+                title: 'Selected for development',
+                category: 'selected_for_development',
+            },
+            { title: 'In Progress', category: 'in_progress' },
+            { title: 'Selected for QA', category: 'selected_for_qa' },
+            { title: 'Done', category: 'done' },
+        ];
+    }, []);
+
+    const value = useMemo(() => {
+        return { tickets, tables, onDragOver, onDragStart, onDrop };
+    }, [tickets, tables, onDragOver, onDragStart, onDrop]);
 
     return (
         <TablePageContext.Provider value={value}>

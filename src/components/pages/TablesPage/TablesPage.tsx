@@ -1,19 +1,14 @@
-import { Divider, Stack } from '@mui/material';
+import { Stack } from '@mui/material';
 import { Table } from './components/Table';
-import { useState } from 'react';
 import {
-    StyledTableTitle,
-    StyledTableWrapper,
-} from './components/Table/Table.styled';
-import {
-    StyledTicketTitle,
-    StyledTicketWrapper,
-} from './components/Ticket/Ticket.styled';
-import { Ticket } from './components/Ticket';
-import { TablePageContext } from './TablesPageProvider';
-import { useTablePageContext } from './TablesPageProvider/TablesPageProvider';
+    TablePageProvider,
+    useTablePageContext,
+} from './TablesPageProvider/TablesPageProvider';
+import { useFetchAllTicketsData } from './hooks';
+import { useQuery } from '@apollo/client';
+import { ALL_TICKETS_QUERY } from './queries';
 
-export const TablesPage = () => {
+const Tables = () => {
     const { tables } = useTablePageContext();
 
     return (
@@ -31,5 +26,19 @@ export const TablesPage = () => {
                 />
             ))}
         </Stack>
+    );
+};
+
+export const TablesPage = () => {
+    const { allTickets, error, loading } = useFetchAllTicketsData();
+
+    // const { data } = useQuery(ALL_TICKETS_QUERY);
+
+    console.log(allTickets, 'tikets');
+
+    return (
+        <TablePageProvider>
+            <Tables />
+        </TablePageProvider>
     );
 };
