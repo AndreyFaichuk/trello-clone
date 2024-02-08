@@ -14,6 +14,7 @@ import { DefaultAppLayout } from '../app/DefaultAppLayout/DefaultAppLayout';
 import { AppRoute } from '../../lib/routes';
 import { TablesPage } from '../pages/TablesPage';
 import { CssBaseline, GlobalStyles } from '@mui/material';
+import { TablePageProvider } from '../pages/TablesPage/TablesPageProvider/TablesPageProvider';
 
 const App = () => {
     return (
@@ -46,7 +47,9 @@ export const AppProvider = () => {
                                 },
                             }}
                         />
-                        <App />
+                        <TablePageProvider>
+                            <App />
+                        </TablePageProvider>
                     </Router>
                 </ThemeProvider>
             </StyledEngineProvider>
