@@ -1,4 +1,4 @@
-import { Paper, styled } from '@mui/material';
+import { Paper, Typography, styled } from '@mui/material';
 import { Box } from '@mui/system';
 
 export const StyledTicketWrapper = styled(Paper)(({ theme }) => ({
@@ -13,8 +13,9 @@ export const StyledTicketWrapper = styled(Paper)(({ theme }) => ({
     },
 }));
 
-export const StyledTicketTitle = styled('h3')(() => ({
-    fontSize: '12px',
+export const StyledTicketTitle = styled(Typography)(() => ({
+    fontSize: '13px',
+    lineHeight: '1.6',
 }));
 
 export const StyledTicketNameWrapper = styled(Box)(() => ({
