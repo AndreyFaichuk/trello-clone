@@ -1,15 +1,35 @@
-import { Stack } from '@mui/material';
+import {
+    Alert,
+    Box,
+    InputAdornment,
+    LinearProgress,
+    Snackbar,
+    Stack,
+    TextField,
+} from '@mui/material';
 import { Table } from './components/Table';
 import {
     TablePageProvider,
     useTablePageContext,
 } from './TablesPageProvider/TablesPageProvider';
 import { useFetchAllTicketsData } from './hooks';
-import { useQuery } from '@apollo/client';
-import { ALL_TICKETS_QUERY } from './queries';
+import { TABLES } from './TablePage.constants';
+import QueueIcon from '@mui/icons-material/Queue';
+import {
+    StyledTablesPageCreateButton,
+    StyledTablesPageTuningBlockWrapper,
+} from './TablesPage.styled';
+import { useState } from 'react';
+import { CreateTicketModalContainer } from './components/Ticket/components/CreateTicketModalContainer';
 
 const Tables = () => {
-    const { tables } = useTablePageContext();
+    const { updateFilter, filter } = useTablePageContext();
+
+    const [openCreateTicketModal, setIsCreateTicketModal] =
+        useState<boolean>(false);
+
+    const handleEditTicketModalOpen = () => setIsCreateTicketModal(true);
+    const handleEditTicketModalClose = () => setIsCreateTicketModal(false);
 
     return (
         <Stack
@@ -18,13 +38,38 @@ const Tables = () => {
             flexDirection="row"
             gap={2}
         >
-            {tables.map((config) => (
+            <StyledTablesPageTuningBlockWrapper>
+                <StyledTablesPageCreateButton
+                    variant="contained"
+                    fullWidth
+                    startIcon={<QueueIcon />}
+                    onClick={handleEditTicketModalOpen}
+                >
+                    Create ticket
+                </StyledTablesPageCreateButton>
+                <TextField
+                    variant="filled"
+                    color="secondary"
+                    label="ticket search"
+                    fullWidth
+                    value={filter}
+                    size="small"
+                    onChange={(e) => updateFilter(e.target.value)}
+                />
+            </StyledTablesPageTuningBlockWrapper>
+            {TABLES.map((config) => (
                 <Table
                     key={config.category}
                     title={config.title}
                     category={config.category}
                 />
             ))}
+            {openCreateTicketModal && (
+                <CreateTicketModalContainer
+                    isOpen={openCreateTicketModal}
+                    onClose={handleEditTicketModalClose}
+                />
+            )}
         </Stack>
     );
 };
@@ -32,12 +77,26 @@ const Tables = () => {
 export const TablesPage = () => {
     const { allTickets, error, loading } = useFetchAllTicketsData();
 
-    // const { data } = useQuery(ALL_TICKETS_QUERY);
+    if (loading) {
+        return (
+            <Box sx={{ width: '100%' }}>
+                <LinearProgress />
+            </Box>
+        );
+    }
 
-    console.log(allTickets, 'tikets');
+    if (error || !allTickets) {
+        return (
+            <Snackbar open={true} autoHideDuration={6000}>
+                <Alert severity="error" variant="filled" sx={{ width: '100%' }}>
+                    Something went wrong while fetching tickets!
+                </Alert>
+            </Snackbar>
+        );
+    }
 
     return (
-        <TablePageProvider>
+        <TablePageProvider tickets={allTickets}>
             <Tables />
         </TablePageProvider>
     );

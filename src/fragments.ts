@@ -6,5 +6,6 @@ export const TICKET_DATA_FRAGMENT = gql`
         name
         category
         dateCreated
+        priority
     }
 `;

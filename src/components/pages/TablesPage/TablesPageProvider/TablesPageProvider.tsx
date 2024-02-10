@@ -1,118 +1,91 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, {
+    createContext,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from 'react';
 import {
     TableCategory,
-    TableConfig,
     TablePageProps,
     TablePageProviderProps,
     Ticket,
 } from './types';
+import { useUpdateTicket } from '../hooks';
 
-export const TablePageContext = React.createContext<TablePageProps>({
-    tables: [],
-    tickets: [],
+export const TablePageContext = createContext<TablePageProps>({
+    allTickets: [],
     onDragOver: () => {},
     onDragStart: () => {},
     onDrop: () => {},
+    updateFilter: () => {},
+    filter: '',
 });
 
 export const TablePageProvider: React.FC<TablePageProviderProps> = ({
     children,
+    tickets,
 }) => {
-    const [tickets, setTickets] = useState<Ticket[]>([
-        {
-            id: 1,
-            name: 'Fix UI bug',
-            category: 'backlog',
-            dateCreated: '2024-01-31 14:08:42.307222+00',
-        },
-        {
-            id: 2,
-            name: 'Add new logic',
-            category: 'backlog',
-            dateCreated: '2024-02-02 14:08:42.307222+00',
-        },
-        {
-            id: 3,
-            name: 'Prepare component for new feature',
-            category: 'backlog',
-            dateCreated: '2024-01-15 14:08:42.307222+00',
-        },
-        {
-            id: 4,
-            name: 'Replace old styles',
-            category: 'in_progress',
-            dateCreated: '2024-01-11 14:08:42.307222+00',
-        },
-        {
-            id: 5,
-            name: 'Add new layout',
-            category: 'in_progress',
-            dateCreated: '2024-01-30 14:08:42.307222+00',
-        },
-        {
-            id: 6,
-            name: 'Add new button',
-            category: 'done',
-            dateCreated: '2024-01-27 14:08:42.307222+00',
-        },
-        {
-            id: 7,
-            name: 'Fix new layout',
-            category: 'selected_for_qa',
-            dateCreated: '2024-02-08 14:08:42.307222+00',
-        },
-        {
-            id: 8,
-            name: 'Remove old ui',
-            category: 'in_progress',
-            dateCreated: '2024-02-04 14:08:42.307222+00',
-        },
-    ]);
+    const { updateTicket } = useUpdateTicket();
+
+    const [allTickets, setAllTickets] = useState<Ticket[]>(tickets);
+    const [filter, setFilter] = useState<string>('');
+
+    useEffect(() => {
+        setAllTickets(tickets);
+    }, [tickets]);
 
     const onDragOver = useCallback((ev: React.DragEvent) => {
         ev.preventDefault();
     }, []);
 
-    const onDragStart = useCallback((ev: React.DragEvent, id: number) => {
-        ev.dataTransfer.setData('id', id.toString());
+    const onDragStart = useCallback((ev: React.DragEvent, id: string) => {
+        ev.dataTransfer.setData('id', id);
     }, []);
 
     const onDrop = useCallback(
-        (ev: React.DragEvent, destinationCategory: TableCategory) => {
+        async (ev: React.DragEvent, destinationCategory: TableCategory) => {
             ev.preventDefault();
 
             const id = ev.dataTransfer.getData('id');
 
-            setTickets((prevTasks) => {
-                const updatedTasks = prevTasks.map((task) => {
-                    if (task.id === +id) {
-                        return { ...task, category: destinationCategory };
-                    }
-                    return task;
-                });
+            const foundTicket = allTickets.find((ticket) => ticket.id === id);
 
-                return updatedTasks;
-            });
+            if (foundTicket && destinationCategory !== foundTicket.category) {
+                try {
+                    await updateTicket({
+                        id,
+                        category: destinationCategory,
+                    });
+                } catch (error) {
+                    throw new Error(error as string);
+                }
+            }
         },
-        [],
+        [allTickets],
     );
 
-    const tables: TableConfig[] = useMemo(() => {
-        return [
-            { title: 'Backlog', category: 'backlog' },
-            {
-                title: 'Selected for development',
-                category: 'selected_for_development',
-            },
-            { title: 'In Progress', category: 'in_progress' },
-            { title: 'Selected for QA', category: 'selected_for_qa' },
-            { title: 'Done', category: 'done' },
-        ];
-    }, []);
+    const updateFilter = (newFilter: string) => {
+        setFilter(newFilter);
+    };
+
+    const filteredTickets = useMemo(() => {
+        return allTickets.filter((ticket) =>
+            ticket.name.toLowerCase().includes(filter.toLowerCase()),
+        );
+    }, [allTickets, filter]);
 
     const value = useMemo(() => {
-        return { tickets, tables, onDragOver, onDragStart, onDrop };
-    }, [tickets, tables, onDragOver, onDragStart, onDrop]);
+        return {
+            allTickets: filteredTickets,
+            onDragOver,
+            onDragStart,
+            onDrop,
+            updateFilter,
+            filter,
+        };
+    }, [filteredTickets, onDragOver, onDragStart, onDrop, filter]);
 
     return (
         <TablePageContext.Provider value={value}>

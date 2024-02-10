@@ -8,7 +8,6 @@ export const DefaultAppHeader = () => {
         <>
             <BaseHeader.Root>
                 <BaseHeader.Logo logo={trelloIcon}></BaseHeader.Logo>
-                <BaseHeader.Section>Logo</BaseHeader.Section>
             </BaseHeader.Root>
         </>
     );

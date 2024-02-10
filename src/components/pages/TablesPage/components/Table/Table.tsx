@@ -17,11 +17,11 @@ import dayjs from 'dayjs';
 import { Ticket } from '../Ticket';
 
 export const Table: FC<TableConfig> = (table) => {
-    const { tickets, onDragOver, onDrop } = useTablePageContext();
+    const { allTickets, onDragOver, onDrop } = useTablePageContext();
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
     const [currentTickets, setCurrentTickets] =
-        useState<TicketProps[]>(tickets);
+        useState<TicketProps[]>(allTickets);
 
     const toggleSortOrder = () => {
         setSortOrder((prevSortOrder) =>
@@ -40,12 +40,12 @@ export const Table: FC<TableConfig> = (table) => {
     );
 
     useLayoutEffect(() => {
-        const filteredTickets = tickets.filter(
+        const filteredTickets = allTickets.filter(
             (ticket) => ticket.category === table.category,
         );
         const sortedTickets = filteredTickets.sort(sortTickets);
         setCurrentTickets(sortedTickets);
-    }, [tickets, table.category, sortOrder, sortTickets]);
+    }, [allTickets, table.category, sortOrder, sortTickets]);
 
     return (
         <StyledTableWrapper
@@ -59,13 +59,17 @@ export const Table: FC<TableConfig> = (table) => {
                 alignItems="center"
             >
                 <StyledTableTitle>{table.title}</StyledTableTitle>
-                {currentTickets.length > 0 && (
+                {currentTickets.length > 1 && (
                     <Tooltip title="Sort by date of creation">
                         <IconButton
                             onClick={toggleSortOrder}
                             sx={{
                                 width: '30px',
                                 height: '30px',
+                                transform:
+                                    sortOrder === 'asc'
+                                        ? 'rotate(180deg)'
+                                        : 'unset',
                             }}
                         >
                             <SortIcon />
@@ -83,6 +87,7 @@ export const Table: FC<TableConfig> = (table) => {
                             id={ticket.id}
                             category={ticket.category}
                             dateCreated={ticket.dateCreated}
+                            priority={ticket.priority}
                         />
                     ))
                 ) : (

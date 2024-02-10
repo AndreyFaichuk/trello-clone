@@ -10,16 +10,17 @@ import { useTablePageContext } from '../../TablesPageProvider/TablesPageProvider
 import { Ticket as TicketProps } from '../../TablesPageProvider/types';
 import { generatePath, useHistory } from 'react-router';
 import { AppRoute } from '../../../../../lib/routes';
-import { EditTicketModal } from './components/EditTicketModal';
-import { getColorFromDaysCount, getDaysDifference } from './utils';
+import { TicketIcon, getColorFromDaysCount, getDaysDifference } from './utils';
 import { Box } from '@mui/system';
-import { Tooltip } from '@mui/material';
+import { Stack, Tooltip } from '@mui/material';
+import { EditTicketModalContainer } from './components/EditTicketModalContainer';
 
 export const Ticket: FC<TicketProps> = ({
     id,
     name,
     category,
     dateCreated,
+    priority,
 }) => {
     const { onDragStart } = useTablePageContext();
     const history = useHistory();
@@ -62,9 +63,11 @@ export const Ticket: FC<TicketProps> = ({
                     alignItems="center"
                 >
                     <StyledTicketNameWrapper>
-                        <StyledTicketTitle>{name}</StyledTicketTitle>
+                        <StyledTicketTitle variant="h3">
+                            {name}
+                        </StyledTicketTitle>
                     </StyledTicketNameWrapper>
-                    <StyledTicketTitle>
+                    <Stack direction="column" alignItems="center" gap={2}>
                         <Tooltip title={`${daysInColumn} days in column`}>
                             <StyledTicketTooltipWrapper
                                 style={{ backgroundColor: daysInColumnColor }}
@@ -76,13 +79,22 @@ export const Ticket: FC<TicketProps> = ({
                                 </Box>
                             </StyledTicketTooltipWrapper>
                         </Tooltip>
-                    </StyledTicketTitle>
+                        <Tooltip title={`${priority} priority`}>
+                            <Box>
+                                <TicketIcon type={priority} />
+                            </Box>
+                        </Tooltip>
+                    </Stack>
                 </Box>
             </StyledTicketWrapper>
-            <EditTicketModal
-                isOpen={openEditTicketModal}
-                onClose={onEditTicketModalClose}
-            />
+
+            {openEditTicketModal && (
+                <EditTicketModalContainer
+                    ticketId={id}
+                    isOpen={openEditTicketModal}
+                    onClose={onEditTicketModalClose}
+                />
+            )}
         </>
     );
 };
