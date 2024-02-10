@@ -1,4 +1,3 @@
-import React from 'react';
 import { ApolloProvider } from '@apollo/client';
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 

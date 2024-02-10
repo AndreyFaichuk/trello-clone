@@ -2,16 +2,10 @@ import React, {
     createContext,
     useCallback,
     useContext,
-    useEffect,
     useMemo,
     useState,
 } from 'react';
-import {
-    TableCategory,
-    TablePageProps,
-    TablePageProviderProps,
-    Ticket,
-} from './types';
+import { TableCategory, TablePageProps, TablePageProviderProps } from './types';
 import { useUpdateTicket } from '../hooks';
 
 export const TablePageContext = createContext<TablePageProps>({
@@ -29,12 +23,7 @@ export const TablePageProvider: React.FC<TablePageProviderProps> = ({
 }) => {
     const { updateTicket } = useUpdateTicket();
 
-    const [allTickets, setAllTickets] = useState<Ticket[]>(tickets);
     const [filter, setFilter] = useState<string>('');
-
-    useEffect(() => {
-        setAllTickets(tickets);
-    }, [tickets]);
 
     const onDragOver = useCallback((ev: React.DragEvent) => {
         ev.preventDefault();
@@ -50,7 +39,7 @@ export const TablePageProvider: React.FC<TablePageProviderProps> = ({
 
             const id = ev.dataTransfer.getData('id');
 
-            const foundTicket = allTickets.find((ticket) => ticket.id === id);
+            const foundTicket = tickets.find((ticket) => ticket.id === id);
 
             if (foundTicket && destinationCategory !== foundTicket.category) {
                 try {
@@ -63,7 +52,7 @@ export const TablePageProvider: React.FC<TablePageProviderProps> = ({
                 }
             }
         },
-        [allTickets],
+        [tickets],
     );
 
     const updateFilter = (newFilter: string) => {
@@ -71,10 +60,10 @@ export const TablePageProvider: React.FC<TablePageProviderProps> = ({
     };
 
     const filteredTickets = useMemo(() => {
-        return allTickets.filter((ticket) =>
+        return tickets.filter((ticket) =>
             ticket.name.toLowerCase().includes(filter.toLowerCase()),
         );
-    }, [allTickets, filter]);
+    }, [tickets, filter]);
 
     const value = useMemo(() => {
         return {
