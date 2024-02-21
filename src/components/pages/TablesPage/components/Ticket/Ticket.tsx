@@ -56,7 +56,7 @@ export const Ticket: FC<CurrentTicketProps> = ({
                         </StyledTicketTitle>
                     </StyledTicketNameWrapper>
                     <Stack direction="column" alignItems="center" gap={2}>
-                        <Tooltip title={`${daysInColumn} days in column`}>
+                        <Tooltip title={`${daysInColumn} days after creating`}>
                             <StyledTicketTooltipWrapper
                                 style={{
                                     backgroundColor: daysInColumnColor,
