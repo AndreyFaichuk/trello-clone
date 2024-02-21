@@ -10,18 +10,47 @@ import InfoIcon from '@mui/icons-material/Info';
 import { FC, useCallback, useLayoutEffect, useState } from 'react';
 import { useTablePageContext } from '../../TablesPageProvider/TablesPageProvider';
 import {
+    TableCategory,
     TableConfig,
     Ticket as TicketProps,
 } from '../../TablesPageProvider/types';
 import dayjs from 'dayjs';
 import { Ticket } from '../Ticket';
+import { generatePath, useHistory } from 'react-router-dom';
+import { AppRoute } from '../../../../../lib/routes';
+import { EditTicketModalContainer } from '../Ticket/components/EditTicketModalContainer';
 
 export const Table: FC<TableConfig> = (table) => {
     const { allTickets, onDragOver, onDrop } = useTablePageContext();
-    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
     const [currentTickets, setCurrentTickets] =
         useState<TicketProps[]>(allTickets);
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+    const [currentTicketId, setCurrentTicketId] = useState<string | null>(null);
+    const [openEditTicketModal, setIsEditTicketModal] =
+        useState<boolean>(false);
+
+    const history = useHistory();
+
+    const handleEditTicketModalOpen = () => setIsEditTicketModal(true);
+    const handleEditTicketModalClose = () => setIsEditTicketModal(false);
+
+    const handleTicketClick = (id: string, category: TableCategory) => {
+        history.push(
+            generatePath(AppRoute.EDIT_TICKET, {
+                category,
+                id,
+            }),
+        );
+        setCurrentTicketId(id);
+        handleEditTicketModalOpen();
+    };
+
+    const onEditTicketModalClose = () => {
+        history.push(generatePath(AppRoute.TABLES));
+        setCurrentTicketId(null);
+        handleEditTicketModalClose();
+    };
 
     const toggleSortOrder = () => {
         setSortOrder((prevSortOrder) =>
@@ -88,6 +117,7 @@ export const Table: FC<TableConfig> = (table) => {
                             category={ticket.category}
                             dateCreated={ticket.dateCreated}
                             priority={ticket.priority}
+                            onClick={handleTicketClick}
                         />
                     ))
                 ) : (
@@ -101,6 +131,13 @@ export const Table: FC<TableConfig> = (table) => {
                     </StyledTableWarningSection>
                 )}
             </Stack>
+            {openEditTicketModal && currentTicketId && (
+                <EditTicketModalContainer
+                    ticketId={currentTicketId}
+                    isOpen={openEditTicketModal}
+                    onClose={onEditTicketModalClose}
+                />
+            )}
         </StyledTableWrapper>
     );
 };
