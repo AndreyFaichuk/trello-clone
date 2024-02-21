@@ -4,7 +4,7 @@
             "id": 1,
             "name": "Resolve Critical User Interface Bug Impacting Overall User Experience",
             "category": "selected_for_development",
-            "dateCreated": "2024-01-31 14:08:42.307222+00",
+            "dateCreated": "2024-02-21 10:15:42.307222+00",
             "comment": "The UI bug seems critical and might affect the overall user experience. Let's prioritize fixing it in the upcoming sprint. Take note of any specific steps to reproduce the issue and gather additional details for a thorough resolution.",
             "priority": "urgent"
         },
@@ -12,7 +12,7 @@
             "id": 2,
             "name": "Implement Additional Logic to Enhance Application Functionality",
             "category": "selected_for_development",
-            "dateCreated": "2024-02-02 14:08:42.307222+00",
+            "dateCreated": "2024-02-19 10:15:42.307222+00",
             "comment": "Adding new logic will enhance the functionality of the application. Before proceeding, let's gather detailed requirements for the new logic. Any edge cases or specific scenarios should be considered for a comprehensive implementation.",
             "priority": "middle"
         },
@@ -20,7 +20,7 @@
             "id": 3,
             "name": "Prepare Component for Upcoming Feature Implementation",
             "category": "selected_for_development",
-            "dateCreated": "2024-01-15 14:08:42.307222+00",
+            "dateCreated": "2024-02-04 10:15:42.307222+00",
             "comment": "Preparation for the new feature is underway. Please review the design guidelines and ensure that the component is ready to accommodate the upcoming functionality. Coordinate with the design team for any additional assets or specifications.",
             "priority": "high"
         },
@@ -28,7 +28,7 @@
             "id": 4,
             "name": "Replace Outdated Styles with Updated Design System",
             "category": "in_progress",
-            "dateCreated": "2024-01-11 14:08:42.307222+00",
+            "dateCreated": "2024-01-23 14:08:42.307222+00",
             "comment": "In the process of replacing old styles with the updated design system. Ensure compatibility with existing components and validate the changes across different screen sizes. Keep an eye on performance metrics during the transition.",
             "priority": "middle"
         },
@@ -44,7 +44,7 @@
             "id": 6,
             "name": "Introduce and Validate New Button in the User Interface",
             "category": "done",
-            "dateCreated": "2024-01-27 14:08:42.307222+00",
+            "dateCreated": "2024-02-17 14:08:42.307222+00",
             "comment": "Successfully added the new button to the UI. Awaiting validation and testing from the QA team. Provide detailed documentation for the new button's functionality and any associated user interactions.",
             "priority": "low"
         },
@@ -52,7 +52,7 @@
             "id": 7,
             "name": "Fix Issues in New Layout for Quality Assurance",
             "category": "selected_for_qa",
-            "dateCreated": "2024-02-08 14:08:42.307222+00",
+            "dateCreated": "2024-02-16 14:08:42.307222+00",
             "comment": "The new layout needs fixing before proceeding to QA. Identify and resolve any issues related to layout inconsistencies, alignment problems, or visual glitches. Conduct thorough testing across different devices and screen resolutions.",
             "priority": "high"
         },
@@ -60,7 +60,7 @@
             "id": 8,
             "name": "In Progress: Remove Old UI Components with Smooth Transition Planning",
             "category": "in_progress",
-            "dateCreated": "2024-02-04 14:08:42.307222+00",
+            "dateCreated": "2024-02-15 14:08:42.307222+00",
             "comment": "In the process of removing the old UI components. Ensure a smooth transition for users by providing adequate notifications and guidance. Collaborate with the support team to address any potential user concerns during this phase.",
             "priority": "middle"
         },
@@ -68,7 +68,7 @@
             "id": 9,
             "name": "Optimize Database Queries to Improve System Performance",
             "category": "backlog",
-            "dateCreated": "2024-01-18 14:08:42.307222+00",
+            "dateCreated": "2024-02-14 14:08:42.307222+00",
             "comment": "Identify and optimize database queries to improve overall system performance. Collaborate with the database team to understand current bottlenecks and propose efficient solutions.",
             "priority": "low"
         },
@@ -84,7 +84,7 @@
             "id": 11,
             "name": "Evaluate and Refactor Existing Codebase for Better Maintainability and Scalability",
             "category": "selected_for_development",
-            "dateCreated": "2024-01-14 14:08:42.307222+00",
+            "dateCreated": "2024-02-14 14:08:42.307222+00",
             "comment": "Evaluate and refactor the existing codebase for better maintainability and scalability. Document changes and ensure backward compatibility with existing features.",
             "priority": "middle"
         },
@@ -92,7 +92,7 @@
             "id": 12,
             "name": "Perform Optimization of Front-End Performance with Techniques such as Lazy Loading and Code Splitting",
             "category": "on_review",
-            "dateCreated": "2024-02-01 14:08:42.307222+00",
+            "dateCreated": "2024-02-13 14:08:42.307222+00",
             "comment": "Identify and implement optimizations to enhance front-end performance. Consider lazy loading, code splitting, and other techniques to improve user experience.",
             "priority": "high"
         },
@@ -100,7 +100,7 @@
             "id": 13,
             "name": "Generate Comprehensive API Documentation for Internal and External Use",
             "category": "backlog",
-            "dateCreated": "2024-01-22 14:08:42.307222+00",
+            "dateCreated": "2024-02-13 14:08:42.307222+00",
             "comment": "Generate comprehensive API documentation for both internal and external use. Include example requests, responses, and authentication details for developers.",
             "priority": "middle"
         },
@@ -108,7 +108,7 @@
             "id": 14,
             "name": "Address and Fix Reported Bugs for Quality Assurance",
             "category": "selected_for_qa",
-            "dateCreated": "2024-02-06 14:08:42.307222+00",
+            "dateCreated": "2024-02-10 14:08:42.307222+00",
             "comment": "Address and fix reported bugs from the QA team. Prioritize critical issues and ensure timely delivery of bug fixes. Perform thorough testing before marking issues as resolved.",
             "priority": "blocker"
         },
@@ -116,7 +116,7 @@
             "id": 15,
             "name": "Plan and Implement File Upload Functionality Considering Security Measures and Compatibility",
             "category": "selected_for_development",
-            "dateCreated": "2024-01-17 14:08:42.307222+00",
+            "dateCreated": "2024-02-05 14:08:42.307222+00",
             "comment": "Plan and implement file upload functionality. Consider security measures, file size restrictions, and compatibility with various file formats.",
             "priority": "middle"
         },
@@ -132,7 +132,7 @@
             "id": 17,
             "name": "Integrate User Analytics for Gathering Insights into User Behavior",
             "category": "on_review",
-            "dateCreated": "2024-01-13 14:08:42.307222+00",
+            "dateCreated": "2024-01-31 14:08:42.307222+00",
             "comment": "Integrate user analytics to gather insights into user behavior. Choose suitable analytics tools and define key performance indicators (KPIs) for analysis.",
             "priority": "urgent"
         },
@@ -140,7 +140,7 @@
             "id": 18,
             "name": "Develop Onboarding Tutorial for New Users with Interactive Elements",
             "category": "backlog",
-            "dateCreated": "2024-02-03 14:08:42.307222+00",
+            "dateCreated": "2024-02-05 14:08:42.307222+00",
             "comment": "Develop an onboarding tutorial for new users to guide them through the essential features of the application. Consider interactive elements for a better user experience.",
             "priority": "blocker"
         },
@@ -148,7 +148,7 @@
             "id": 19,
             "name": "Implement and Fine-Tune Server-Side Caching Mechanisms for Improved Performance",
             "category": "in_progress",
-            "dateCreated": "2024-02-07 14:08:42.307222+00",
+            "dateCreated": "2024-02-02 14:08:42.307222+00",
             "comment": "Implement and fine-tune server-side caching mechanisms to improve response times and reduce load on the server. Test and monitor the impact on overall performance.",
             "priority": "middle"
         },
@@ -156,7 +156,7 @@
             "id": 20,
             "name": "Research, Select, and Integrate a Third-Party API to Enhance Application Functionality",
             "category": "backlog",
-            "dateCreated": "2024-01-21 14:08:42.307222+00",
+            "dateCreated": "2024-02-09 14:08:42.307222+00",
             "comment": "Research, select, and integrate a third-party API to enhance the functionality of the application. Ensure proper authentication and error handling.",
             "priority": "low"
         },

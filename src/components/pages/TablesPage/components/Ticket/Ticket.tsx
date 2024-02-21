@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import {
     StyledTicketDaysCounterText,
     StyledTicketNameWrapper,
@@ -7,55 +7,43 @@ import {
     StyledTicketWrapper,
 } from './Ticket.styled';
 import { useTablePageContext } from '../../TablesPageProvider/TablesPageProvider';
-import { Ticket as TicketProps } from '../../TablesPageProvider/types';
-import { generatePath, useHistory } from 'react-router';
-import { AppRoute } from '../../../../../lib/routes';
+import {
+    TableCategory,
+    Ticket as TicketProps,
+} from '../../TablesPageProvider/types';
 import { TicketIcon, getColorFromDaysCount, getDaysDifference } from './utils';
 import { Box } from '@mui/system';
 import { Stack, Tooltip } from '@mui/material';
-import { EditTicketModalContainer } from './components/EditTicketModalContainer';
+import { motion } from 'framer-motion';
 
-export const Ticket: FC<TicketProps> = ({
+type CurrentTicketProps = TicketProps & {
+    onClick: (id: string, category: TableCategory) => void;
+};
+
+export const Ticket: FC<CurrentTicketProps> = ({
     id,
     name,
     category,
     dateCreated,
     priority,
+    onClick,
 }) => {
     const { onDragStart } = useTablePageContext();
-    const history = useHistory();
-
-    const [openEditTicketModal, setIsEditTicketModal] =
-        useState<boolean>(false);
-
-    const handleEditTicketModalOpen = () => setIsEditTicketModal(true);
-    const handleEditTicketModalClose = () => setIsEditTicketModal(false);
-
-    const onEditTicketModalOpen = () => {
-        history.push(
-            generatePath(AppRoute.EDIT_TICKET, {
-                category,
-                id,
-            }),
-        );
-        handleEditTicketModalOpen();
-    };
-
-    const onEditTicketModalClose = () => {
-        history.push(generatePath(AppRoute.TABLES));
-        handleEditTicketModalClose();
-    };
 
     const daysInColumn = getDaysDifference(dateCreated);
     const daysInColumnColor = getColorFromDaysCount(daysInColumn);
 
     return (
-        <>
+        <motion.div
+            whileHover={{ scale: 1.03 }}
+            initial={{ height: 0 }}
+            animate={{ height: 'auto' }}
+            transition={{ duration: 0.1 }}
+        >
             <StyledTicketWrapper
-                elevation={1}
                 draggable
                 onDragStart={(e) => onDragStart(e, id)}
-                onClick={onEditTicketModalOpen}
+                onClick={() => onClick(id, category)}
             >
                 <Box
                     display="flex"
@@ -70,7 +58,9 @@ export const Ticket: FC<TicketProps> = ({
                     <Stack direction="column" alignItems="center" gap={2}>
                         <Tooltip title={`${daysInColumn} days in column`}>
                             <StyledTicketTooltipWrapper
-                                style={{ backgroundColor: daysInColumnColor }}
+                                style={{
+                                    backgroundColor: daysInColumnColor,
+                                }}
                             >
                                 <Box>
                                     <StyledTicketDaysCounterText>
@@ -87,14 +77,6 @@ export const Ticket: FC<TicketProps> = ({
                     </Stack>
                 </Box>
             </StyledTicketWrapper>
-
-            {openEditTicketModal && (
-                <EditTicketModalContainer
-                    ticketId={id}
-                    isOpen={openEditTicketModal}
-                    onClose={onEditTicketModalClose}
-                />
-            )}
-        </>
+        </motion.div>
     );
 };
